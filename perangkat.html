@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}
+Kelola Perangkat - Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Kelola Perangkat</h1>
+
+        <p>
+            Tambah, edit, aktifkan, atau nonaktifkan perangkat perpustakaan.
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('tambah_perangkat') }}"
+        class="btn btn-primary"
+    >
+        + Tambah Perangkat
+    </a>
+
+</div>
+
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div>
+            <h2>Daftar Perangkat</h2>
+
+            <p>
+                Jumlah perangkat: {{ data|length }}
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if data %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Kode Perangkat</th>
+
+                    <th>Jenis</th>
+
+                    <th>Status</th>
+
+                    <th>Kondisi</th>
+
+                    <th>Status Aktif</th>
+
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in data %}
+
+                <tr>
+
+                    <!-- NOMOR -->
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+
+                    <!-- KODE -->
+
+                    <td>
+
+                        <strong>
+                            {{ item.kode }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- JENIS -->
+
+                    <td>
+                        {{ item.jenis }}
+                    </td>
+
+
+                    <!-- STATUS PENGGUNAAN -->
+
+                    <td>
+
+                        {% if item.status == "Tersedia" %}
+
+                            <span class="status-badge status-available">
+                                Tersedia
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge status-used">
+                                Digunakan
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- KONDISI -->
+
+                    <td>
+
+                        <span class="condition-badge">
+                            {{ item.kondisi }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- STATUS AKTIF -->
+
+                    <td>
+
+                        {% if item.aktif == 1 %}
+
+                            <span class="status-badge status-available">
+                                Aktif
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge status-inactive">
+                                Nonaktif
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- AKSI -->
+
+                    <td>
+
+                        <div class="action-group">
+
+                            <a
+                                href="{{ url_for('edit_perangkat', id=item.id) }}"
+                                class="btn btn-warning btn-small"
+                            >
+                                Edit
+                            </a>
+
+
+                            {% if item.aktif == 1 %}
+
+                            <a
+                                href="{{ url_for('nonaktif_perangkat', id=item.id) }}"
+                                class="btn btn-secondary btn-small"
+                                onclick="return confirm('Nonaktifkan perangkat {{ item.kode }}?')"
+                            >
+                                Nonaktifkan
+                            </a>
+
+                            {% else %}
+
+                            <a
+                                href="{{ url_for('aktif_perangkat', id=item.id) }}"
+                                class="btn btn-success btn-small"
+                            >
+                                Aktifkan
+                            </a>
+
+                            {% endif %}
+
+
+                            {% if item.status == "Tersedia" %}
+
+                            <a
+                                href="{{ url_for('hapus_perangkat', id=item.id) }}"
+                                class="btn btn-danger btn-small"
+                                onclick="return confirm('Yakin ingin menghapus perangkat {{ item.kode }}?')"
+                            >
+                                Hapus
+                            </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            💻
+        </div>
+
+        <h3>
+            Belum ada perangkat
+        </h3>
+
+        <p>
+            Silakan tambahkan perangkat komputer terlebih dahulu.
+        </p>
+
+        <a
+            href="{{ url_for('tambah_perangkat') }}"
+            class="btn btn-primary"
+        >
+            + Tambah Perangkat
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

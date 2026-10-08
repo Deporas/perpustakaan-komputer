@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}
+Penggunaan Perangkat - Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Penggunaan Perangkat</h1>
+
+        <p>
+            Catat penggunaan komputer perpustakaan
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary"
+    >
+        ← Kembali
+    </a>
+
+</div>
+
+
+<section class="card form-card">
+
+    <div class="card-header">
+
+        <div>
+            <h2>Form Penggunaan Komputer</h2>
+
+            <p>
+                Isi data pengguna dan kondisi perangkat sebelum digunakan.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if perangkat %}
+
+    <form
+        method="POST"
+        action="{{ url_for('penggunaan') }}"
+    >
+
+        <!-- NAMA -->
+
+        <div class="form-group">
+
+            <label for="nama">
+                Nama Lengkap
+            </label>
+
+            <input
+                type="text"
+                id="nama"
+                name="nama"
+                placeholder="Masukkan nama lengkap"
+                required
+            >
+
+        </div>
+
+
+        <!-- NIM -->
+
+        <div class="form-group">
+
+            <label for="nim">
+                NIM
+            </label>
+
+            <input
+                type="text"
+                id="nim"
+                name="nim"
+                placeholder="Masukkan NIM"
+                required
+            >
+
+        </div>
+
+
+        <!-- JURUSAN -->
+
+        <div class="form-group">
+
+            <label for="jurusan">
+                Jurusan
+            </label>
+
+            <input
+                type="text"
+                id="jurusan"
+                name="jurusan"
+                placeholder="Contoh: Informatika"
+                required
+            >
+
+        </div>
+
+
+        <!-- ANGKATAN -->
+
+        <div class="form-group">
+
+            <label for="angkatan">
+                Angkatan
+            </label>
+
+            <input
+                type="text"
+                id="angkatan"
+                name="angkatan"
+                placeholder="Contoh: 2024"
+                required
+            >
+
+        </div>
+
+
+        <!-- PERANGKAT -->
+
+        <div class="form-group">
+
+            <label for="perangkat_id">
+                Perangkat
+            </label>
+
+            <select
+                id="perangkat_id"
+                name="perangkat_id"
+                required
+            >
+
+                <option value="">
+                    -- Pilih Perangkat --
+                </option>
+
+                {% for item in perangkat %}
+
+                <option value="{{ item.id }}">
+
+                    {{ item.kode }}
+                    -
+                    {{ item.jenis }}
+
+                    ({{ item.kondisi }})
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- TANGGAL -->
+
+        <div class="form-group">
+
+            <label for="tanggal_pemakaian">
+                Tanggal Pemakaian
+            </label>
+
+            <input
+                type="date"
+                id="tanggal_pemakaian"
+                name="tanggal_pemakaian"
+                value="{{ tanggal_hari_ini }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- TUJUAN -->
+
+        <div class="form-group">
+
+            <label for="tujuan">
+                Tujuan Penggunaan
+            </label>
+
+            <textarea
+                id="tujuan"
+                name="tujuan"
+                rows="4"
+                placeholder="Contoh: Mengerjakan tugas kuliah"
+                required
+            ></textarea>
+
+        </div>
+
+
+        <!-- KONDISI AWAL -->
+
+        <div class="form-group">
+
+            <label for="kondisi_awal">
+                Kondisi Awal Perangkat
+            </label>
+
+            <select
+                id="kondisi_awal"
+                name="kondisi_awal"
+                required
+            >
+
+                <option value="">
+                    -- Pilih Kondisi --
+                </option>
+
+                <option value="Baik">
+                    Baik
+                </option>
+
+                <option value="Baik dengan Catatan">
+                    Baik dengan Catatan
+                </option>
+
+                <option value="Rusak Ringan">
+                    Rusak Ringan
+                </option>
+
+                <option value="Rusak Berat">
+                    Rusak Berat
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- INFORMASI WAKTU -->
+
+        <div class="info-box">
+
+            <strong>
+                ⏱️ Waktu mulai akan tercatat otomatis.
+            </strong>
+
+            <p>
+                Anda tidak perlu mengisi waktu mulai secara manual.
+            </p>
+
+        </div>
+
+
+        <!-- TOMBOL -->
+
+        <div class="form-actions">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="btn btn-secondary"
+            >
+                Batal
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Mulai Penggunaan
+            </button>
+
+        </div>
+
+    </form>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            💻
+        </div>
+
+        <h3>
+            Tidak ada perangkat tersedia
+        </h3>
+
+        <p>
+            Semua perangkat sedang digunakan atau belum ditambahkan.
+        </p>
+
+        <a
+            href="{{ url_for('perangkat') }}"
+            class="btn btn-primary"
+        >
+            Kelola Perangkat
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

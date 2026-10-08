@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}
+Riwayat Penggunaan - Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Riwayat Penggunaan</h1>
+
+        <p>
+            Data seluruh penggunaan komputer perpustakaan.
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('penggunaan') }}"
+        class="btn btn-primary"
+    >
+        + Penggunaan Baru
+    </a>
+
+</div>
+
+
+<section class="card">
+
+    <!-- PENCARIAN -->
+
+    <div class="search-box">
+
+        <form
+            method="GET"
+            action="{{ url_for('riwayat') }}"
+        >
+
+            <input
+                type="text"
+                name="q"
+                value="{{ kata_kunci }}"
+                placeholder="Cari nama, NIM, jurusan, perangkat, tujuan..."
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Cari
+            </button>
+
+            {% if kata_kunci %}
+
+            <a
+                href="{{ url_for('riwayat') }}"
+                class="btn btn-secondary"
+            >
+                Reset
+            </a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    <!-- TABEL RIWAYAT -->
+
+    {% if data %}
+
+    <div class="table-wrapper">
+
+        <table class="history-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Nama</th>
+
+                    <th>NIM / Jurusan</th>
+
+                    <th>Angkatan</th>
+
+                    <th>Perangkat</th>
+
+                    <th>Tanggal Pemakaian</th>
+
+                    <th>Waktu Mulai</th>
+
+                    <th>Waktu Akhir</th>
+
+                    <th>Tujuan</th>
+
+                    <th>Kondisi Awal</th>
+
+                    <th>Kondisi Akhir</th>
+
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in data %}
+
+                <tr>
+
+                    <!-- NO -->
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+
+                    <!-- NAMA -->
+
+                    <td>
+
+                        <strong>
+                            {{ item.nama }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- NIM / JURUSAN -->
+
+                    <td>
+
+                        {{ item.nim }}
+
+                        <br>
+
+                        <small>
+                            {{ item.jurusan }}
+                        </small>
+
+                    </td>
+
+
+                    <!-- ANGKATAN -->
+
+                    <td>
+                        {{ item.angkatan }}
+                    </td>
+
+
+                    <!-- PERANGKAT -->
+
+                    <td>
+
+                        <strong>
+                            {{ item.kode }}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            {{ item.jenis }}
+                        </small>
+
+                    </td>
+
+
+                    <!-- TANGGAL -->
+
+                    <td>
+                        {{ item.tanggal_pemakaian }}
+                    </td>
+
+
+                    <!-- WAKTU MULAI -->
+
+                    <td>
+                        {{ item.waktu_mulai }}
+                    </td>
+
+
+                    <!-- WAKTU AKHIR -->
+
+                    <td>
+
+                        {% if item.waktu_akhir %}
+
+                            {{ item.waktu_akhir }}
+
+                        {% else %}
+
+                            <span class="status-badge status-used">
+                                Sedang Digunakan
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- TUJUAN -->
+
+                    <td>
+                        {{ item.tujuan }}
+                    </td>
+
+
+                    <!-- KONDISI AWAL -->
+
+                    <td>
+
+                        <span class="condition-badge">
+                            {{ item.kondisi_awal }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- KONDISI AKHIR -->
+
+                    <td>
+
+                        {% if item.kondisi_akhir %}
+
+                            <span class="condition-badge">
+                                {{ item.kondisi_akhir }}
+                            </span>
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- AKSI -->
+
+                    <td>
+
+                        <a
+                            href="{{ url_for('hapus_riwayat', id=item.id) }}"
+                            class="btn btn-danger btn-small"
+                            onclick="return confirm('Yakin ingin menghapus data riwayat ini?')"
+                        >
+                            Hapus
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            📋
+        </div>
+
+        {% if kata_kunci %}
+
+        <h3>
+            Data tidak ditemukan
+        </h3>
+
+        <p>
+            Tidak ada riwayat yang sesuai dengan pencarian
+            "{{ kata_kunci }}".
+        </p>
+
+        <a
+            href="{{ url_for('riwayat') }}"
+            class="btn btn-secondary"
+        >
+            Tampilkan Semua Data
+        </a>
+
+        {% else %}
+
+        <h3>
+            Belum ada riwayat
+        </h3>
+
+        <p>
+            Data penggunaan komputer akan muncul di sini
+            setelah penggunaan selesai.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

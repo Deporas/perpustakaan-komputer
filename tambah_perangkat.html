@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if edit %}
+Edit Perangkat
+{% else %}
+Tambah Perangkat
+{% endif %}
+- Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            {% if edit %}
+                Edit Perangkat
+            {% else %}
+                Tambah Perangkat
+            {% endif %}
+        </h1>
+
+        <p>
+            {% if edit %}
+                Ubah informasi perangkat perpustakaan.
+            {% else %}
+                Tambahkan perangkat komputer baru.
+            {% endif %}
+        </p>
+
+    </div>
+
+    <a
+        href="{{ url_for('perangkat') }}"
+        class="btn btn-secondary"
+    >
+        ← Kembali
+    </a>
+
+</div>
+
+
+<section class="card form-card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h2>
+                Informasi Perangkat
+            </h2>
+
+            <p>
+                Isi data perangkat dengan benar.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <form
+        method="POST"
+        {% if edit %}
+            action="{{ url_for('edit_perangkat', id=data.id) }}"
+        {% else %}
+            action="{{ url_for('tambah_perangkat') }}"
+        {% endif %}
+    >
+
+        <!-- KODE PERANGKAT -->
+
+        <div class="form-group">
+
+            <label for="kode">
+                Kode Perangkat
+            </label>
+
+            <input
+                type="text"
+                id="kode"
+                name="kode"
+                placeholder="Contoh: PC-01"
+                value="{{ data.kode if edit else '' }}"
+                required
+            >
+
+            <small class="form-help">
+                Gunakan kode yang berbeda untuk setiap perangkat.
+            </small>
+
+        </div>
+
+
+        <!-- JENIS PERANGKAT -->
+
+        <div class="form-group">
+
+            <label for="jenis">
+                Jenis Perangkat
+            </label>
+
+            <select
+                id="jenis"
+                name="jenis"
+                required
+            >
+
+                <option value="">
+                    -- Pilih Jenis Perangkat --
+                </option>
+
+                <option
+                    value="Komputer"
+                    {% if edit and data.jenis == "Komputer" %}
+                        selected
+                    {% endif %}
+                >
+                    Komputer
+                </option>
+
+                <option
+                    value="Laptop"
+                    {% if edit and data.jenis == "Laptop" %}
+                        selected
+                    {% endif %}
+                >
+                    Laptop
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- KONDISI -->
+
+        <div class="form-group">
+
+            <label for="kondisi">
+                Kondisi Perangkat
+            </label>
+
+            <select
+                id="kondisi"
+                name="kondisi"
+                required
+            >
+
+                <option value="">
+                    -- Pilih Kondisi --
+                </option>
+
+                <option
+                    value="Baik"
+                    {% if edit and data.kondisi == "Baik" %}
+                        selected
+                    {% endif %}
+                >
+                    Baik
+                </option>
+
+                <option
+                    value="Baik dengan Catatan"
+                    {% if edit and data.kondisi == "Baik dengan Catatan" %}
+                        selected
+                    {% endif %}
+                >
+                    Baik dengan Catatan
+                </option>
+
+                <option
+                    value="Rusak Ringan"
+                    {% if edit and data.kondisi == "Rusak Ringan" %}
+                        selected
+                    {% endif %}
+                >
+                    Rusak Ringan
+                </option>
+
+                <option
+                    value="Rusak Berat"
+                    {% if edit and data.kondisi == "Rusak Berat" %}
+                        selected
+                    {% endif %}
+                >
+                    Rusak Berat
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- INFORMASI -->
+
+        <div class="info-box">
+
+            <strong>
+                💡 Informasi
+            </strong>
+
+            <p>
+                Status perangkat akan otomatis dibuat
+                <strong>Tersedia</strong> ketika perangkat baru ditambahkan.
+            </p>
+
+            {% if edit %}
+
+            <p>
+                Status penggunaan dan status aktif perangkat
+                tidak diubah melalui form ini.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- TOMBOL -->
+
+        <div class="form-actions">
+
+            <a
+                href="{{ url_for('perangkat') }}"
+                class="btn btn-secondary"
+            >
+                Batal
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+
+                {% if edit %}
+                    Simpan Perubahan
+                {% else %}
+                    Tambahkan Perangkat
+                {% endif %}
+
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

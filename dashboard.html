@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Dashboard</h1>
+
+        <p>
+            Monitoring penggunaan komputer perpustakaan
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('penggunaan') }}"
+        class="btn btn-primary"
+    >
+        + Penggunaan Baru
+    </a>
+
+</div>
+
+
+<!-- DAFTAR PERANGKAT -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div>
+            <h2>Perangkat Perpustakaan</h2>
+
+            <p>
+                Daftar komputer/perangkat yang tersedia
+            </p>
+        </div>
+
+        <a
+            href="{{ url_for('perangkat') }}"
+            class="btn btn-secondary"
+        >
+            Kelola Perangkat
+        </a>
+
+    </div>
+
+
+    {% if perangkat %}
+
+    <div class="device-grid">
+
+        {% for item in perangkat %}
+
+        <div class="device-card">
+
+            <div class="device-icon">
+                💻
+            </div>
+
+            <div class="device-info">
+
+                <h3>
+                    {{ item.kode }}
+                </h3>
+
+                <p>
+                    {{ item.jenis }}
+                </p>
+
+                <span
+                    class="
+                    status-badge
+                    {% if item.status == 'Tersedia' %}
+                        status-available
+                    {% else %}
+                        status-used
+                    {% endif %}
+                    "
+                >
+                    {{ item.status }}
+                </span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            💻
+        </div>
+
+        <h3>
+            Belum ada perangkat
+        </h3>
+
+        <p>
+            Tambahkan perangkat komputer terlebih dahulu.
+        </p>
+
+        <a
+            href="{{ url_for('tambah_perangkat') }}"
+            class="btn btn-primary"
+        >
+            + Tambah Perangkat
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- SEDANG DIGUNAKAN -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <div>
+
+            <h2>
+                Sedang Digunakan
+            </h2>
+
+            <p>
+                Daftar pengguna yang sedang menggunakan perangkat
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if penggunaan %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Nama</th>
+
+                    <th>NIM / Jurusan</th>
+
+                    <th>Perangkat</th>
+
+                    <th>Mulai</th>
+
+                    <th>Tujuan</th>
+
+                    <th>Aksi</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in penggunaan %}
+
+                <tr>
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            {{ item.nama }}
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {{ item.nim }}
+
+                        <br>
+
+                        <small>
+                            {{ item.jurusan }}
+                        </small>
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            {{ item.kode }}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            {{ item.jenis }}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        {{ item.waktu_mulai }}
+                    </td>
+
+                    <td>
+                        {{ item.tujuan }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for('selesai', id=item.id) }}"
+                            class="btn btn-success btn-small"
+                        >
+                            Selesai
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            🖥️
+        </div>
+
+        <h3>
+            Tidak ada perangkat yang sedang digunakan
+        </h3>
+
+        <p>
+            Semua perangkat saat ini tersedia.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

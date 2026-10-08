@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}
+Selesaikan Penggunaan - Sistem Komputer Perpustakaan
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Selesaikan Penggunaan</h1>
+
+        <p>
+            Catat waktu selesai dan kondisi akhir perangkat.
+        </p>
+    </div>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="btn btn-secondary"
+    >
+        ← Kembali
+    </a>
+
+</div>
+
+
+<section class="card form-card">
+
+    <div class="card-header">
+
+        <div>
+            <h2>Informasi Penggunaan</h2>
+
+            <p>
+                Periksa data sebelum menyelesaikan penggunaan.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- INFORMASI PENGGUNA -->
+
+    <div class="detail-grid">
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Nama
+            </span>
+
+            <strong>
+                {{ data.nama }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                NIM
+            </span>
+
+            <strong>
+                {{ data.nim }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Jurusan
+            </span>
+
+            <strong>
+                {{ data.jurusan }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Angkatan
+            </span>
+
+            <strong>
+                {{ data.angkatan }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Perangkat
+            </span>
+
+            <strong>
+                {{ data.kode }}
+            </strong>
+
+            <small>
+                {{ data.jenis }}
+            </small>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Tanggal
+            </span>
+
+            <strong>
+                {{ data.tanggal_pemakaian }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Waktu Mulai
+            </span>
+
+            <strong>
+                {{ data.waktu_mulai }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Tujuan
+            </span>
+
+            <strong>
+                {{ data.tujuan }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-item">
+
+            <span class="detail-label">
+                Kondisi Awal
+            </span>
+
+            <strong>
+                {{ data.kondisi_awal }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <!-- FORM SELESAI -->
+
+    <form
+        method="POST"
+        action="{{ url_for('selesai', id=data.id) }}"
+    >
+
+        <div class="form-group">
+
+            <label for="kondisi_akhir">
+                Kondisi Akhir Perangkat
+            </label>
+
+            <select
+                id="kondisi_akhir"
+                name="kondisi_akhir"
+                required
+            >
+
+                <option value="">
+                    -- Pilih Kondisi Akhir --
+                </option>
+
+                <option value="Baik">
+                    Baik
+                </option>
+
+                <option value="Baik dengan Catatan">
+                    Baik dengan Catatan
+                </option>
+
+                <option value="Rusak Ringan">
+                    Rusak Ringan
+                </option>
+
+                <option value="Rusak Berat">
+                    Rusak Berat
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <strong>
+                ⏱️ Waktu akhir akan tercatat otomatis.
+            </strong>
+
+            <p>
+                Setelah disimpan, perangkat akan kembali berstatus
+                <strong>Tersedia</strong>.
+            </p>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="btn btn-secondary"
+            >
+                Batal
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-success"
+            >
+                Selesaikan Penggunaan
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

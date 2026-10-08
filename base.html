@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        Sistem Komputer Perpustakaan
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="navbar-brand">
+            <div class="brand-icon">📚</div>
+
+            <div>
+                <div class="brand-title">
+                    Sistem Komputer Perpustakaan
+                </div>
+
+                <div class="brand-subtitle">
+                    Universitas Satya Terra Bhinneka
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar-menu">
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('penggunaan') }}">
+                Penggunaan
+            </a>
+
+            <a href="{{ url_for('riwayat') }}">
+                Riwayat
+            </a>
+
+            <a href="{{ url_for('perangkat') }}">
+                Perangkat
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ISI HALAMAN -->
+    <main class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <p>
+            Sistem Komputer Perpustakaan
+        </p>
+
+        <p>
+            Universitas Satya Terra Bhinneka
+        </p>
+
+    </footer>
+
+</body>
+</html>
